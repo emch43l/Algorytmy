@@ -6,8 +6,8 @@ namespace Zad_3
     {
         static void Main(string[] args)
         {
-            int[] tab = { 1, 2, 1, 2, 5, 10, 1, 2, 3, 4, 5, 6 };
-            int k = 6;
+            int[] tab = { 10, 2, 1, 2, 5, 10, 1, 2, 3, 4, 5 };
+            int k = 3;
             Console.WriteLine(SearchNumberInIncreasing(tab, k));
         }
 
