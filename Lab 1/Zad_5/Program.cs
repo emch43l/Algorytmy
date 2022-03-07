@@ -6,21 +6,35 @@ namespace Zad_5
     {
         static void Main(string[] args)
         {
-            int[] tab = { 12, 4, 6, 2 };
+            int[] tab = { 12, 11, 5, 4, 1 };
             Console.WriteLine(SearchIndex(tab));
         }
 
-        static int SearchIndex(int[] tab,int index = 0)
+        static int SearchIndex(int[] tab, int index = 0)
         {
             int sum = 0;
-            int returningIndex = -1;
+            int element = tab[index];
 
             for(int i = index + 1; i < tab.Length; i++)
             {
                 sum += tab[i];
             }
 
-            if(tab[index] )
+            if (element == sum)
+            {
+                return index;
+            }
+            else
+            {
+                if (index == tab.Length)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return SearchIndex(tab, index + 1);
+                }
+            }
 
         }
     }
