@@ -16,6 +16,8 @@ namespace Zad_1
             if (index == tab.Length)
                 return sum;
 
+            
+
             return sumTab(tab, sum += tab[index],index+1);
         }
     }
