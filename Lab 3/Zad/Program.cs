@@ -55,4 +55,46 @@ namespace Zad
             return mem[n-1] + mem[n-2];
         }
     }
+
+    public class CashRegister
+    {
+        static readonly int ONE = 0;
+        static readonly int TWO = 1;
+        static readonly int FIVE = 2;
+        private readonly int[] _coins = new int[3];
+        int[] Payment(int[] income, int amount)
+        {
+
+            if (amount > getAmount(income) || amount < 0 || income.Length > 3)
+                return new int[] { };
+            int rest = getRemainer(income,amount);
+            registerCash(income);
+        }
+
+        public int[] calcRest(int rest)
+        {
+
+        }
+        private int getRemainer(int[] income, int amount)
+        {
+            return getAmount(income) - amount;
+        }
+
+        public void registerCash(int[] income)
+        {
+            this._coins[ONE] += income[ONE];
+            this._coins[TWO] += income[TWO];
+            this._coins[FIVE] += income[FIVE];
+        }
+
+        private int getAmount(int [] coins)
+        {
+            return (coins[ONE] * 1) + (coins[TWO] * 2) + (coins[FIVE] * 5);
+        }
+
+        public CashRegister(int coins)
+        {
+
+        }
+    }
 }
