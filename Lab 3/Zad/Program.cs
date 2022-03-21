@@ -29,6 +29,7 @@ namespace Zad
             CashRegister cash = new CashRegister(new int[] { 10, 0, 5, 0, 0, 10, 10, 10, 10 });
             foreach (var coin in cash.Payment(new int[] { 0, 0, 0, 0, 0, 1, 0, 0, 0 }, 20))
                 Console.WriteLine(coin);
+            Console.WriteLine(cash);
         }
 
         public static long fibonacci(int n)
@@ -134,6 +135,11 @@ namespace Zad
         public CashRegister(int[] coins)
         {
             registerCash(coins);
+        }
+
+        public override string ToString()
+        {
+            return $"{_coins[0]} {_coins[1]} {_coins[2]} {_coins[3]} {_coins[4]} {_coins[5]} {_coins[6]} {_coins[7]} {_coins[8]}";
         }
     }
 }
