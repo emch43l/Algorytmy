@@ -26,7 +26,7 @@ namespace Zad
         {
             Console.WriteLine(SinTable.Sin(-70));
             Console.WriteLine(fibonacci(42));
-            CashRegister cash = new CashRegister(new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10 });
+            CashRegister cash = new CashRegister(new int[] { 10, 0, 5, 0, 0, 10, 10, 10, 10 });
             foreach (var coin in cash.Payment(new int[] { 0, 0, 0, 0, 0, 1, 0, 0, 0 }, 20))
                 Console.WriteLine(coin);
         }
@@ -79,7 +79,7 @@ namespace Zad
 
             for (int i = this._coins.Length - 1; i >= 0; i--)
             {
-                if (rest >= VALUES[i] && _coins[i] > 0)
+                if (rest >= VALUES[i] && _coins[i] - money[i] > 0)
                 {
                     money[i]++;
                     rest -= VALUES[i];
