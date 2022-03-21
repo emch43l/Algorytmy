@@ -78,27 +78,18 @@ namespace Zad
 
         public int[] calcRest(int rest)
         {
-            int[] money = new int[3];
+            int[] money = {0,0,0};
             while (rest > 0)
             {
-                if (rest >= 5 && _coins[FIVE] > 0)
+                for(int i = 0; i < _coins.Length; i ++)
                 {
-                    money[2]++;
-                    rest -= 5;
-                    continue;
-                }
-                if (rest >= 2 && _coins[TWO] > 0)
-                {
-                    money[1]++;
-                    rest -= 2;
-                    continue;
-                }
-                if (rest >= 1 && _coins[ONE] > 0)
-                {
-                    
-                    money[0]++;
-                    rest -= 1;
-                    continue;
+                    if (rest >= 5 && _coins[i] > 0)
+                    {
+                        money[i]++;
+                        rest -= 5;
+                        continue;
+                    }
+
                 }
                 if (rest > 0)
                 {
