@@ -59,6 +59,10 @@ namespace Zad
         }
     }
 
+    /// <summary>
+    /// Zad 4 && Zad 2
+    /// </summary>
+
     public class CashRegister
     {
         static readonly int[] VALUES = {1,2,5,10,20,50,100,200,500};
