@@ -26,9 +26,8 @@ namespace Zad
         {
             Console.WriteLine(SinTable.Sin(-70));
             Console.WriteLine(fibonacci(42));
-
-            CashRegister cash = new CashRegister(new int[] { 0,0,10});
-            foreach (var coin in cash.Payment(new int[] { 0, 0, 3 }, 12))
+            CashRegister cash = new CashRegister(new int[] { 10, 10, 10, 10, 10, 10, 10, 10, 10 });
+            foreach (var coin in cash.Payment(new int[] { 0, 0, 0, 0, 0, 1, 0, 0, 0 }, 20))
                 Console.WriteLine(coin);
         }
 
@@ -62,77 +61,75 @@ namespace Zad
 
     public class CashRegister
     {
-        static readonly int ONE = 0;
-        static readonly int TWO = 1;
-        static readonly int FIVE = 2;
-        private readonly int[] _coins = new int[3];
+        static readonly int[] VALUES = {1,2,5,10,20,50,100,200,500};
+
+        private readonly int[] _coins = new int[VALUES.Length];
         public int[] Payment(int[] income, int amount)
         {
 
-            if (amount > getAmount(income) || amount < 0 || income.Length > 3)
+            if (amount > getAmount(income) || amount < 0 || income.Length > VALUES.Length)
                 return new int[] { };
             int rest = getRemainer(income,amount);
             registerCash(income);
-            return calcRest(rest);
+            return calcRest(rest,new int[VALUES.Length]);
         }
 
-        public int[] calcRest(int rest)
+        public int[] calcRest(int rest, int[] money)
         {
-            int[] money = {0,0,0};
-            while (rest > 0)
-            {
-                for(int i = 0; i < _coins.Length; i ++)
-                {
-                    if (rest >= 5 && _coins[i] > 0)
-                    {
-                        money[i]++;
-                        rest -= 5;
-                        continue;
-                    }
 
-                }
-                if (rest > 0)
+            for (int i = this._coins.Length - 1; i >= 0; i--)
+            {
+                if (rest >= VALUES[i] && _coins[i] > 0)
                 {
-                    return new int[] { };
+                    money[i]++;
+                    rest -= VALUES[i];
+                    return calcRest(rest, money);
                 }
+            }
+            if (rest > 0)
+            {
+                return new int[] { };
             }
 
             deregisterCash(money);
             return money;
 
         }
+
         private int getRemainer(int[] income, int amount)
         {
             return getAmount(income) - amount;
         }
 
-        public void deregisterCash(int [] coins)
+        public void deregisterCash(int[] coins)
         {
-            this._coins[ONE] -= coins[ONE];
-            this._coins[TWO] -= coins[TWO];
-            this._coins[FIVE] -= coins[FIVE];
+            for (int i = 0; i < this._coins.Length; i++)
+            {
+                this._coins[i] -= coins[i];
+            }
         }
 
         public void registerCash(int[] income)
         {
-            this._coins[ONE] += income[ONE];
-            this._coins[TWO] += income[TWO];
-            this._coins[FIVE] += income[FIVE];
+            for (int i = 0; i < this._coins.Length; i++)
+            {
+                this._coins[i] += income[i];
+            }
         }
 
         private int getAmount(int[] coins)
         {
-            return (coins[ONE] * 1) + (coins[TWO] * 2) + (coins[FIVE] * 5);
+            int amount = 0;
+            for(int i = 0; i < this._coins.Length; i++)
+            {
+                amount += coins[i] * VALUES[i];
+            }
+            return amount;
         }
 
         public CashRegister(int[] coins)
         {
             registerCash(coins);
-        }
-
-        public override string ToString()
-        {
-            return $"ONES: {_coins[ONE]}, TWOS: {_coins[TWO]}, FIVES: {_coins[FIVE]}";
         }
     }
 }
