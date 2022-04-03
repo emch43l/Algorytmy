@@ -8,13 +8,21 @@ namespace Zad
         public static void Main(string[] args)
         {
 
-            int[] arr = { 4, 2, 1, 3, 5, 8 , 7, 6 };
-            string[] strarr = { "aa", "ab", "xx", "cd", "aaa", "gd" ,"ac" };
-            //foreach(var i in StringMergeSort.Sort(strarr))
-            //{
-            //   Console.Write(i + " ");
-            //}
+            int[] arr = { 1, 3, 2, 5, 4, 8, 6, 7 };
+            string[] strarr = { "aa", "ab", "xx", "cd", "aaa", "gd", "ac" };
+            foreach (var i in StringMergeSort.Sort(strarr))
+            {
+                Console.Write(i + " ");
+            }
+
+            Console.WriteLine();
             MergeSortInPLace.Sort(arr);
+
+            string[] HexNumbers = { "AF3", "12D", "236", "120" };
+            StringHexPositionSort sort = new StringHexPositionSort();
+            sort.Sort(HexNumbers, 3);
+            Console.ReadKey();
+            Console.ReadKey();
         }
     }
     //Cwiczenie 1
@@ -94,7 +102,7 @@ namespace Zad
             var mid = (left + right) / 2;
             SortArray(arr, left, mid);
             SortArray(arr, mid + 1, right);
-            Merge(arr, left, mid, right);
+            Merge(arr,left,mid,right);
         }
         //zaimplementuj tę metodę, tak, aby wykonać scalanie w miejscu
         //left  - indeks pierwszego elementu pierwszej podtablicy
@@ -109,7 +117,37 @@ namespace Zad
         //arr => {2, 3, 4, 5, 6, 8, 11, 7}
         private static void Merge(int[] arr, int left, int mid, int right)
         {
-            for(int )
+            int arr1_Length = mid - left + 1;
+            int arr2_Length = right - mid;
+
+            var result = new int[arr1_Length + arr2_Length];
+
+            for (int i = 0, j1 = left, j2 = mid + 1; i < arr1_Length + arr2_Length; i++)
+            {
+                if (j1 <= mid && j2 <= right)
+                {
+                    result[i] = arr[j1] < arr[j2] ? arr[j1++] : arr[j2++];
+                    continue;
+                }
+                if (j1 <= mid)
+                {
+                    result[i] = arr[j1++];
+                    continue;
+                }
+                if (j2 <= right)
+                {
+                    result[i] = arr[j2++];
+                }
+            }
+
+            int iterator = 0;
+
+            for(int i = left; i <= right; i ++)
+            {
+                arr[i] = result[iterator];
+                iterator++;
+            }
+
         }
     }
     //Cwiczenie 3
@@ -124,18 +162,38 @@ namespace Zad
     {
         //Zadeklaruj tablicę kolejek dla każdej cyfry szestnastkowej
         //Każda kolejka jest typu string
+        private Queue<string>[] _queueArray = new Queue<string>[16];
+
+        public Queue<string>[] getQueue {
+            get => _queueArray;
+        }
 
         private void Init()
         {
             //zaimplementuj zainicjowanie tablicy kolejek
-            throw new NotImplementedException();
+            for (int i = 0; i < 16; i++)
+            {
+                if (_queueArray[i] == null)
+                {
+                    _queueArray[i] = new Queue<string>();
+                }
+                else
+                {
+                    _queueArray[i].Clear();
+                }
+            }
         }
 
         private void Dequeue(string[] arr)
         {
-            //zaimplementuje pobieranie z kolejek łańcuchów z liczbami i umieszczanie ich w tablicy arr
-            throw new NotImplementedException();
-
+            int index = 0;
+            for (int i = 0; i < 16; i++)
+            {
+                while (_queueArray[i].Count > 0)
+                {
+                    arr[index++] = _queueArray[i].Dequeue();
+                }
+            }
         }
 
         //Zaimplementuj metodę, aby zwracała liczbę równą cyfrze szesnastkowej na podanej pozycji (position) w łańcuchu str
@@ -146,13 +204,21 @@ namespace Zad
         // cyfra na pozycji 8 to 0
         private int ExtractDigit(string str, uint position)
         {
-            throw new NotImplementedException();
+            str = string.Format("{0}", str);
+            if (str.Length <= position - 1)
+            {
+                return 0;
+            }
+            return Convert.ToInt32(str[(int)(str.Length - position)] + "", 16);
         }
         //zaimplementuj umieszczanie liczb łacuchów z liczbami hex w kolejce odpowiadającej cyfrze na podanej pozycji
         private void Enqueue(string[] arr, uint position)
         {
-
-            throw new NotImplementedException();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                int digit = ExtractDigit(arr[i], position);
+                _queueArray[digit].Enqueue(arr[i]);
+            }
         }
         //Tej metody nie zmieniaj!!!
         public void Sort(string[] arr, int d)
@@ -163,6 +229,7 @@ namespace Zad
                 Enqueue(arr, position);
                 Dequeue(arr);
             }
+
         }
     }
 }
