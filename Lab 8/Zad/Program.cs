@@ -49,6 +49,9 @@ namespace Zad
 
             BST<int> bst = new BST<int>() { Root = root };
             Console.WriteLine(bst.Contains(1));
+            Console.WriteLine(bst.Insert(28));
+            Console.WriteLine(bst.Contains(28));
+            Console.WriteLine(bst.Root.Right.Right.Right.Value);
         }
     }
 
@@ -63,6 +66,8 @@ namespace Zad
 
         private bool Search(TreeNode<T> node, T value)
         {
+            if (node == null)
+                return false;
             int compare = value.CompareTo(node.Value);
             if (compare == 0)
                 return true;
@@ -70,6 +75,39 @@ namespace Zad
                return Search(node.Left, value);
             else
                return Search(node.Right, value);
+        }
+
+        public bool Insert(T value)
+        {
+            return InsertNode(Root, value);
+        }
+
+        //wstawianie
+
+        private bool InsertNode(TreeNode<T> node, T value)
+        {
+            int comp = value.CompareTo(node.Value);
+            if (comp == 0)
+                return false;
+            if(comp > 0)
+            {
+                if(node.Right == null)
+                {
+                    node.Right = new TreeNode<T>() { Value = value };
+                    return true;
+                }
+
+                return InsertNode(node.Right, value);
+            }
+            else
+            {
+                if(node.Left == null)
+                {
+                    node.Left = new TreeNode<T>() { Value = value };
+                    return false;
+                }
+                return InsertNode(node.Left, value);
+            }
         }
     }
 
